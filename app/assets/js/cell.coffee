@@ -1,5 +1,6 @@
 class window.Cell
   CENTER = new PIXI.Point(0.5, 0.5)
+  APPEAR_TIMER_MAX = 200
 
   @TEXTURES_BY_TYPE = {}
 
@@ -14,11 +15,11 @@ class window.Cell
     t
 
 
-  constructor: (@x, @y, @center, @type, @grid) ->
+  constructor: (@x, @y, @center, @type, @grid, visible = true) ->
     @bg = new PIXI.Sprite window.Cell.textureFromType(@type)
     @bg.anchor = CENTER
-    @bg.position = @center
-
+    @bg.position = @center.clone()
+    @bg.visible = visible
     @grid.addChild @bg
 
   add: (agent) ->
@@ -28,8 +29,15 @@ class window.Cell
   clear: () ->
     @bg.removeChild @child
 
-  tick: ()->
-    Console.log("cell tick")
-    Console.log(@x)
-    @step += 1
-    @graphics.position.y += Math.sin(@step * 0.1 + @x + @y) * 20
+  appear: () ->
+    @appearTimer = APPEAR_TIMER_MAX
+    @bg.visible = true
+    @bg.alpha = 0
+
+  tick: () ->
+    if(@appearTimer > 0)
+      @appearTimer -= 1
+      m = (APPEAR_TIMER_MAX - @appearTimer) / APPEAR_TIMER_MAX
+      @bg.alpha = m
+      @bg.position.set(@center.x, @center.y + @appearTimer * 2)
+      @bg.scale.x = @bg.scale.y = m
