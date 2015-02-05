@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/beastiefarm
+web: target/universal/stage/bin/beastiefarm -Dhttp.port=$PORT
