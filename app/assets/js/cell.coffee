@@ -15,9 +15,10 @@ class window.Cell
     t
 
 
-  constructor: (@x, @y, @center, @type, @grid, visible = true) ->
+  constructor: (@x, @y, center, @type, @height, @grid, visible = true) ->
     @bg = new PIXI.Sprite window.Cell.textureFromType(@type)
     @bg.anchor = CENTER
+    @center = new PIXI.Point(center.x, center.y - @height * 20)
     @bg.position = @center.clone()
     @bg.visible = visible
     @grid.addChild @bg

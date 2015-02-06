@@ -1,4 +1,4 @@
-stage = new PIXI.Stage 0x661199
+stage = new PIXI.Stage 0x000000 #0x661199
 
 view = document.getElementById("mainView")
 width = view.offsetWidth
@@ -7,8 +7,7 @@ renderer = PIXI.autoDetectRenderer width, height, view: view
 
 @center = new PIXI.Point width / 2, height / 2
 
-@grid = new window.HexGrid 39, 21
-@grid.container.position = new PIXI.Point(50, 50)
+@grid = new window.HexGrid window.gridWidth, window.gridHeight
 stage.addChild @grid.container
 @grid.container.position = center
 

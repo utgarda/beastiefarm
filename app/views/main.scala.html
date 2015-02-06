@@ -1,5 +1,13 @@
 @(title: String)(content: Html)
 
+@import play.api.libs.json.JsString
+
+@import play.api.libs.json.JsNumber
+
+@import play.api.libs.json.JsObject
+
+@import play.api.libs.json.Json
+
 <!DOCTYPE html>
 
 <html>
@@ -27,6 +35,14 @@
     </head>
     <body>
         <canvas id="mainView"></canvas>
+
+        <script type="text/javascript">
+        window.gridWidth = 39 ;
+        window.gridHeight = 25 ;
+        window.worldMap = @Json.toJson(Generator.terrain(39, 25, Terrain.values.size, Generator.newGen()))
+        window.CELL_TYPES = @Html(Json.toJson(Terrains.All.map { t => JsObject(Seq("name" -> JsString(t.name), "height" -> JsNumber(t.height)))}.toList).toString())
+
+        </script>
 
         <script src="@routes.Assets.at("js/index.js")" type="text/javascript"></script>
     </body>
